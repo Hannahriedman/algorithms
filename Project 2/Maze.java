@@ -8,6 +8,7 @@
 
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.Scanner;
 
 /* Changes from Project 1:
  *
@@ -71,12 +72,19 @@ class Maze {
    */
   void streamIn(Scanner input) {
     int dictionaryNum = input.nextInt();
-
+    System.out.println(dictionaryNum);
     for (int i =0; i <= dictionaryNum;i++){
+      System.out.println("Count: "+i);
       if (i < dictionaryNum) {
-        Location loc = new Location;
+        Location loc = new Location();
         loc.streamIn(input);
-        validLocations.add(loc);
+        loc.streamOut();
+        if (!loc.word.isEmpty()) {
+          validLocations.add();
+        } else {
+          i = 0;
+        }
+        loc.streamOut();
       } else {
         startLocation = new Location();
         endLocation = new Location();

@@ -5,6 +5,7 @@
  *
  * Location class for the Word-Melt Solver
  */
+ import java.util.Scanner;
 
 /* Changes from project 1:
  *
@@ -83,7 +84,7 @@ class Location {
   char nextLetter;
 
   Location() {
-    word = "";
+    word = "nothing";
     indexToChange = 0;
     nextLetter = 'a';
     iterationMode = DONE;
@@ -98,14 +99,14 @@ class Location {
   }
 
   Location nextNeighbor() {
-    Location nextWord = new Location;
+    Location nextWord = new Location();
     nextWord.word = word;
     nextWord.indexToChange = indexToChange;
     nextWord.nextLetter = nextLetter;
 
     switch(iterationMode){
       case CHANGE_LETTER:
-        nextWord.word[indexToChange] = nextLetter;
+        //nextWord.word[indexToChange] = nextLetter;
         break;
       case INSERT_LETTER:
         // insert letter at word[indexToChange]
@@ -155,7 +156,9 @@ class Location {
    * @param input from the scanner
    */
   void streamIn(Scanner input) {
-    this.word = input.nextLine();
+    System.out.println(word);
+    word = input.nextLine();
+    System.out.println(word);
   }
  /**
   * isLess Method
@@ -164,6 +167,6 @@ class Location {
   * then the location.
   */
   boolean isLess(Location loc) {
-
+    return true;
   }
 }
