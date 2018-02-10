@@ -6,6 +6,7 @@
  * Maze class for the Word-Melt Solver
  */
 
+import java.util.*;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Scanner;
@@ -73,6 +74,13 @@ class Maze {
   void streamIn(Scanner input) {
     int dictionaryNum = input.nextInt();
     System.out.println(dictionaryNum);
+    TreeSet<Location> validLocations = new TreeSet<Location>();
+    //validLocations = new validLocations;
+  //  While (!input.isEmpty) {
+    //  Location loc = new Location();
+    //  loc.streamIn(input);
+    //  while (validLocations.add())
+    //}
     for (int i =0; i <= dictionaryNum;i++){
       System.out.println("Count: "+i);
       if (i < dictionaryNum) {
@@ -80,7 +88,10 @@ class Maze {
         loc.streamIn(input);
         loc.streamOut();
         if (!loc.word.isEmpty()) {
-          validLocations.add();
+          //if(validLocations.add(loc)){
+            System.out.println("okay");
+          //}
+            validLocations.add(loc);
         } else {
           i = 0;
         }

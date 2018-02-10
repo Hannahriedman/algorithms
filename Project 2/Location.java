@@ -103,11 +103,32 @@ class Location {
     nextWord.word = word;
     nextWord.indexToChange = indexToChange;
     nextWord.nextLetter = nextLetter;
+    StringBuilder strBuilder = new StringBuilder(word);
+    System.out.println("word: "+word);
 
     switch(iterationMode){
       case CHANGE_LETTER:
-        //nextWord.word[indexToChange] = nextLetter;
-        break;
+
+        if (nextLetter == 'z') {
+          strBuilder.setCharAt(indexToChange,nextLetter);
+          word = strBuilder.toString();
+          nextLetter = 'a';
+
+          indexToChange++;
+          if (indexToChange == word.length()) {
+            iterationMode++;
+            break;
+          } else {
+            break;
+          }
+        } else {
+          strBuilder.setCharAt(indexToChange,nextLetter);
+          word = strBuilder.toString();
+          System.out.println("word1: "+ word);
+          nextLetter++;
+          System.out.println("nextL: "+nextLetter);
+          break;
+        }
       case INSERT_LETTER:
         // insert letter at word[indexToChange]
         break;
@@ -115,11 +136,14 @@ class Location {
         // dellete letter at word[indexToChange]
         break;
       case DONE:
-        return nextWord;
+        break;
       default:
-        return nextWord;
+        break;
     }
-    iterationMode++;
+    nextWord.word = word;
+    nextWord.indexToChange = indexToChange;
+    nextWord.nextLetter = nextLetter;
+    nextWord.iterationMode = iterationMode;
     return nextWord;
   }
   /**
@@ -136,7 +160,7 @@ class Location {
    * @return boolean will be true if word matches.
    */
   boolean isEqual(Location loc) {
-    if (word == loc.word) {
+    if (word.equals(loc.word)) {
       return true;
     } else {
       return false;
@@ -147,7 +171,7 @@ class Location {
    * This wil print out the word for the location.
    */
   void streamOut() {
-    System.out.print(word);
+    System.out.println(word);
   }
   /**
    * streamIn method
@@ -156,7 +180,6 @@ class Location {
    * @param input from the scanner
    */
   void streamIn(Scanner input) {
-    System.out.println(word);
     word = input.nextLine();
     System.out.println(word);
   }
@@ -164,9 +187,16 @@ class Location {
   * isLess Method
   * @param loc location is a location that will be compared.
   * @return boolean that will be true if the location is less
-  * then the location.
+  * then the passed in location loc.
   */
   boolean isLess(Location loc) {
-    return true;
+    String loc1 = this.word;
+    String loc2 = loc.word;
+    System.out.println(loc1.compareTo(loc2));
+    if ((loc1.compareTo(loc2)) <= -1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
