@@ -84,7 +84,7 @@ class Location {
   char nextLetter;
 
   Location() {
-    word = "nothing";
+    word = "";
     indexToChange = 0;
     nextLetter = 'a';
     iterationMode = DONE;
@@ -108,15 +108,15 @@ class Location {
 
     switch(iterationMode){
       case CHANGE_LETTER:
-
         if (nextLetter == 'z') {
           strBuilder.setCharAt(indexToChange,nextLetter);
           word = strBuilder.toString();
           nextLetter = 'a';
-
           indexToChange++;
           if (indexToChange == word.length()) {
             iterationMode++;
+            nextLetter = 'a';
+            indexToChange = 0;
             break;
           } else {
             break;
@@ -124,16 +124,49 @@ class Location {
         } else {
           strBuilder.setCharAt(indexToChange,nextLetter);
           word = strBuilder.toString();
-          System.out.println("word1: "+ word);
           nextLetter++;
-          System.out.println("nextL: "+nextLetter);
           break;
         }
       case INSERT_LETTER:
-        // insert letter at word[indexToChange]
-        break;
+        if (nextLetter == 'z') {
+          strBuilder.insert(indexToChange,nextLetter);
+          word = strBuilder.toString();
+          nextLetter = 'a';
+          indexToChange++;
+          if (indexToChange > word.length()) {
+            iterationMode++;
+            nextLetter = 'a';
+            indexToChange = 0;
+            break;
+          } else {
+            break;
+          }
+        } else {
+          strBuilder.insert(indexToChange,nextLetter);
+          word = strBuilder.toString();
+          nextLetter++;
+          break;
+        }
       case DELETE_LETTER:
-        // dellete letter at word[indexToChange]
+        /**if (nextLetter == 'z') {
+          strBuilder.deleteCharAt(indexToChange);
+          word = strBuilder.toString();
+          nextLetter = 'a';
+          indexToChange++;
+          if (indexToChange == word.length()) {
+            iterationMode++;
+            nextLetter = 'a';
+            indexToChange = 0;
+            break;
+          } else {
+            break;
+          }
+        } else {
+          strBuilder.deleteCharAt(indexToChange);
+          word = strBuilder.toString();
+          nextLetter++;
+          break;
+        }*/
         break;
       case DONE:
         break;
@@ -180,8 +213,9 @@ class Location {
    * @param input from the scanner
    */
   void streamIn(Scanner input) {
-    word = input.nextLine();
-    System.out.println(word);
+    if (input.hasNext()) {
+      word = input.nextLine();    
+    }
   }
  /**
   * isLess Method

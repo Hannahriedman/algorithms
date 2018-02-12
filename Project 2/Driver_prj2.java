@@ -19,25 +19,25 @@ public class Driver_prj2 {
     Location loc2 = new Location();
     //Location compare = new Location();
 	  // stream in the file
-	  //newMaze.streamIn(file);
+	  newMaze.streamIn(file);
 
-	  //loc = newMaze.getStartLocation(); // start location
+	  loc = newMaze.getStartLocation(); // start location
 	  loc.start(); // inialize the first iterationMode
     //loc = compare;
-    loc.streamIn(file);
-    loc2.streamIn(file);
+    //loc.streamIn(file);
+    //loc2.streamIn(file);
 
     // test the isLess method
-    if (loc.isLess(loc2)) {
+    /*if (loc.isLess(loc2)) {
       System.out.print(loc.word+" is less then "+loc2.word);
     } else {
       System.out.print(loc.word+" is not less then "+loc2.word);
-    }
+    }*/
     // test the isEqual and the nextNeighbor method
-    while (!loc.isEqual(loc2)){
+  /*  while (!loc.isEqual(loc2)){
       loc = loc.nextNeighbor();
       loc.streamOut();
-    }
+    }*/
 
     // what the logic will start to look like once maze is working
     /*while (!loc.isEqual(loc2)){

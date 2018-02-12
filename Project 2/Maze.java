@@ -26,6 +26,17 @@ import java.util.Scanner;
  * the TreeSet implementation of a Set.
  */
 
+class LocationComp implements Comparator<Location> {
+  @Override
+  public int compare(Location loc1, Location loc2) {
+    if (loc1.isLess(loc2)) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }
+}
+
 class Maze {
   private Set<Location> validLocations;
 
@@ -71,38 +82,36 @@ class Maze {
    * variables respectively.
    * @param input from the Scanner
    */
+
+
   void streamIn(Scanner input) {
     int dictionaryNum = input.nextInt();
-    System.out.println(dictionaryNum);
-    TreeSet<Location> validLocations = new TreeSet<Location>();
-    //validLocations = new validLocations;
-  //  While (!input.isEmpty) {
-    //  Location loc = new Location();
-    //  loc.streamIn(input);
-    //  while (validLocations.add())
-    //}
-    for (int i =0; i <= dictionaryNum;i++){
-      System.out.println("Count: "+i);
-      if (i < dictionaryNum) {
-        Location loc = new Location();
-        loc.streamIn(input);
-        loc.streamOut();
-        if (!loc.word.isEmpty()) {
-          //if(validLocations.add(loc)){
-            System.out.println("okay");
-          //}
-            validLocations.add(loc);
-        } else {
-          i = 0;
-        }
-        loc.streamOut();
-      } else {
-        startLocation = new Location();
-        endLocation = new Location();
+    TreeSet<Location> validLocations = new TreeSet<Location>(new LocationComp());
 
-        startLocation.streamIn(input);
-        endLocation.streamIn(input);
+    for (int i =0; i < dictionaryNum;i++){
+      Location loc = new Location();
+      loc.streamIn(input);
+      if (!loc.word.isEmpty() && !(validLocations.contains(loc))) {
+        validLocations.add(loc);
+        //loc.streamOut();
+      } else { // we encountered an empty space so doesn't count
+        i = i-1;
       }
     }
+    startLocation = new Location();
+    endLocation = new Location();
+    startLocation.streamIn(input);
+    if (startLocation.word.isEmpty()) {
+      // if startlocation was assigned to blank space we must reinitalize
+      startLocation.streamIn(input);
+      endLocation.streamIn(input);
+    } else {
+      // if not then just initalize end location
+      endLocation.streamIn(input);
+    }
+
+    System.out.println("Start & end:");
+    startLocation.streamOut();
+    endLocation.streamOut();
   }
 }
