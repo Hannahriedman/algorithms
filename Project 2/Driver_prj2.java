@@ -15,20 +15,31 @@ public class Driver_prj2 {
 
 	  // initalize Location, and Maze
 	  Maze newMaze = new Maze();
-	  Location loc = new Location();
-    Location loc2 = new Location();
-    //Location compare = new Location();
+	  Location start = new Location();
+
+
 	  // stream in the file
 	  newMaze.streamIn(file);
 
-	  loc = newMaze.getStartLocation(); // start location
-	  loc.start(); // inialize the first iterationMode
-    //loc = compare;
-    //loc.streamIn(file);
-    //loc2.streamIn(file);
+	  start = newMaze.getStartLocation(); // start location
+	  start.start(); // inialize the first iterationMode
+
+    //test isValid and isEnd methods
+    if (newMaze.isValidLocation(start)) {
+      System.out.println(start.word +" is valid! :) " );
+    } else {
+      System.out.println(start.word +" is not valid. :( ");
+    }
+
+    if (newMaze.isEndLocation(start)) {
+      System.out.println(start.word +" is the end! :) " );
+    } else {
+      System.out.println(start.word +" is not the end. :( ");
+    }
+
 
     // test the isLess method
-    /*if (loc.isLess(loc2)) {
+    /*if (start.isLess(loc2)) {
       System.out.print(loc.word+" is less then "+loc2.word);
     } else {
       System.out.print(loc.word+" is not less then "+loc2.word);

@@ -3,7 +3,8 @@
  * Filename: Maze.java
  * Student name: Hannah Riedman
  *
- * Maze class for the Word-Melt Solver
+ * Maze class for the Word-Melt Solver.
+ * Modifed code from Professor Rivas. 
  */
 
 import java.util.*;
@@ -11,34 +12,17 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Scanner;
 
-/* Changes from Project 1:
- *
- * Data member validLocations was changed from a Location array to a
- * Set<Location>, but it still represents the group of locations that may be
- * visited in the maze.
- *
- * Data member validLocationCount was eliminated (because validLocations is no
- * longer an array).
- *
- * We let the compiler deal with the assignment operator, copy constructor, and
- * for this version of the Maze, you should use the default constructor for the
- * _usual_ and to initally allocate memory for the Set of validLocations using
- * the TreeSet implementation of a Set.
- */
-
 class LocationComp implements Comparator<Location> {
   @Override
   public int compare(Location loc1, Location loc2) {
-    if (loc1.isLess(loc2)) {
-      return -1;
-    } else {
-      return 1;
-    }
+    // this is very simlar to our isLess method but we need an int instead
+    return (loc1.word.compareTo(loc2.word));
   }
 }
 
 class Maze {
   private Set<Location> validLocations;
+  //private TreeSet<Location> validLocations;
 
   private Location startLocation;
   private Location endLocation;
@@ -63,7 +47,7 @@ class Maze {
    * word is in the Dictionary)
    */
   boolean isValidLocation(Location loc) {
-    return validLocations.contains(loc);
+    return (validLocations.contains(loc));
   }
   /**
    * isEndLocation method
@@ -82,8 +66,6 @@ class Maze {
    * variables respectively.
    * @param input from the Scanner
    */
-
-
   void streamIn(Scanner input) {
     int dictionaryNum = input.nextInt();
     TreeSet<Location> validLocations = new TreeSet<Location>(new LocationComp());
@@ -91,9 +73,8 @@ class Maze {
     for (int i =0; i < dictionaryNum;i++){
       Location loc = new Location();
       loc.streamIn(input);
-      if (!loc.word.isEmpty() && !(validLocations.contains(loc))) {
+      if (!loc.word.isEmpty()) {
         validLocations.add(loc);
-        //loc.streamOut();
       } else { // we encountered an empty space so doesn't count
         i = i-1;
       }
@@ -109,9 +90,7 @@ class Maze {
       // if not then just initalize end location
       endLocation.streamIn(input);
     }
-
-    System.out.println("Start & end:");
-    startLocation.streamOut();
-    endLocation.streamOut();
+    // set the validlocations for the maze
+    this.validLocations = validLocations;
   }
 }
