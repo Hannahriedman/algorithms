@@ -16,8 +16,8 @@ public class Driver_prj2 {
 	  // initalize Location, and Maze
 	  Maze newMaze = new Maze();
 	  Location start = new Location();
-
-
+    ArrayQueue queue1 = new ArrayQueue();
+    Location neighbor = new Location();
 	  // stream in the file
 	  newMaze.streamIn(file);
 
@@ -37,7 +37,15 @@ public class Driver_prj2 {
       System.out.println(start.word +" is not the end. :( ");
     }
 
-
+    queue1.add(start);
+    queue1.getFront().streamOut();
+    neighbor = start.nextNeighbor();
+    neighbor.streamOut();
+    queue1.add(neighbor);
+    queue1.getFront().streamOut();
+    neighbor = neighbor.nextNeighbor();
+    queue1.add(neighbor);
+    queue1.getFront().streamOut();
     // test the isLess method
     /*if (start.isLess(loc2)) {
       System.out.print(loc.word+" is less then "+loc2.word);

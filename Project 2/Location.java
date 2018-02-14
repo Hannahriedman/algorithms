@@ -84,7 +84,7 @@ class Location {
           break;
         }
       case DELETE_LETTER:
-        /**if (nextLetter == 'z') {
+        if (nextLetter == 'z') {
           strBuilder.deleteCharAt(indexToChange);
           word = strBuilder.toString();
           nextLetter = 'a';
@@ -102,8 +102,7 @@ class Location {
           word = strBuilder.toString();
           nextLetter++;
           break;
-        }*/
-        break;
+        }
       case DONE:
         break;
       default:
