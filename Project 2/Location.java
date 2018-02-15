@@ -40,16 +40,17 @@ class Location {
     nextWord.indexToChange = indexToChange;
     nextWord.nextLetter = nextLetter;
     StringBuilder strBuilder = new StringBuilder(word);
-    System.out.println("word: "+word);
+    //System.out.println("word: "+word);
+    //System.out.println("nextword: "+nextWord.word);
 
     switch(iterationMode){
       case CHANGE_LETTER:
+        strBuilder.setCharAt(indexToChange,nextLetter);
         if (nextLetter == 'z') {
-          strBuilder.setCharAt(indexToChange,nextLetter);
-          word = strBuilder.toString();
+          nextWord.word = strBuilder.toString();
           nextLetter = 'a';
           indexToChange++;
-          if (indexToChange == word.length()) {
+          if (indexToChange == nextWord.word.length()) {
             iterationMode++;
             nextLetter = 'a';
             indexToChange = 0;
@@ -58,18 +59,21 @@ class Location {
             break;
           }
         } else {
-          strBuilder.setCharAt(indexToChange,nextLetter);
-          word = strBuilder.toString();
+          if (word.equals(strBuilder.toString())) {
+            nextLetter++;
+            strBuilder.setCharAt(indexToChange,nextLetter);
+          }
+          nextWord.word = strBuilder.toString();
           nextLetter++;
           break;
         }
       case INSERT_LETTER:
         if (nextLetter == 'z') {
           strBuilder.insert(indexToChange,nextLetter);
-          word = strBuilder.toString();
+          nextWord.word = strBuilder.toString();
           nextLetter = 'a';
           indexToChange++;
-          if (indexToChange > word.length()) {
+          if (indexToChange > nextWord.word.length()) {
             iterationMode++;
             nextLetter = 'a';
             indexToChange = 0;
@@ -78,18 +82,21 @@ class Location {
             break;
           }
         } else {
-          strBuilder.insert(indexToChange,nextLetter);
-          word = strBuilder.toString();
+          if (word.equals(strBuilder.toString())) {
+            nextLetter++;
+            strBuilder.setCharAt(indexToChange,nextLetter);
+          }
+          nextWord.word = strBuilder.toString();
           nextLetter++;
           break;
         }
       case DELETE_LETTER:
         if (nextLetter == 'z') {
           strBuilder.deleteCharAt(indexToChange);
-          word = strBuilder.toString();
+          nextWord.word = strBuilder.toString();
           nextLetter = 'a';
           indexToChange++;
-          if (indexToChange == word.length()) {
+          if (indexToChange == nextWord.word.length()) {
             iterationMode++;
             nextLetter = 'a';
             indexToChange = 0;
@@ -99,7 +106,11 @@ class Location {
           }
         } else {
           strBuilder.deleteCharAt(indexToChange);
-          word = strBuilder.toString();
+          if (word.equals(strBuilder.toString())) {
+            nextLetter++;
+            strBuilder.setCharAt(indexToChange,nextLetter);
+          }
+          nextWord.word = strBuilder.toString();
           nextLetter++;
           break;
         }
@@ -108,10 +119,9 @@ class Location {
       default:
         break;
     }
-    nextWord.word = word;
-    nextWord.indexToChange = indexToChange;
-    nextWord.nextLetter = nextLetter;
-    nextWord.iterationMode = iterationMode;
+    //nextWord.word = word;
+    //System.out.println("word: "+word);
+    //System.out.println("nextword: "+nextWord.word);
     return nextWord;
   }
   /**

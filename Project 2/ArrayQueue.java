@@ -16,7 +16,8 @@ class ArrayQueue {
     // copy items in the way they were thought of
     System.out.println("hello");
     ArrayQueue doubleCap = new ArrayQueue();
-
+    doubleCap.data = (Location[]) new Location[capacity*2];
+    doubleCap = doubleCap.copyFrom(this);
   }
 
   ArrayQueue() {
@@ -26,7 +27,16 @@ class ArrayQueue {
     this.front = 0;
   }
   ArrayQueue(ArrayQueue q) {
-    // -
+    this.capacity = q.capacity;
+    this.length = q.length;
+    this.front = this.front;
+    this.data = null;
+
+  //copy items
+  for(int i = 0; i <= (length); i++) {
+    this.data[i-front].streamOut();
+    this.data[i-front] = q.data[i%capacity];
+  }
   }
   /**
    * add method
@@ -53,7 +63,7 @@ class ArrayQueue {
         data[front] = loc;
         length++;
       } else { //
-        data[front+length] = loc;
+        data[(front+length)%capacity] = loc;
         length++;
       }
     }
@@ -88,7 +98,7 @@ class ArrayQueue {
   }
 
   ArrayQueue copyFrom(ArrayQueue q) {
-  // -
+
     // make sure the queue is empty before we copy
     if (this == q) {
       return this;
@@ -98,10 +108,9 @@ class ArrayQueue {
       this.front = this.front;
       this.data = null;
     }
-  ///Location[] copyQueue = (Location[]) new Location[2*capacity];
-
 		//copy items
-		for(int i = front; i <= (length-front); i ++) {
+		for(int i = 0; i <= (length); i++) {
+      this.data[i-front].streamOut();
 			this.data[i-front] = q.data[i%capacity];
     }
 		//data = copyQueue;
