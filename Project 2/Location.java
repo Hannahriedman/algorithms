@@ -36,94 +36,87 @@ class Location {
 
   Location nextNeighbor() {
     Location nextWord = new Location();
+    // inialize the nextWord
+
     nextWord.word = word;
     nextWord.indexToChange = indexToChange;
     nextWord.nextLetter = nextLetter;
+    nextWord.iterationMode = iterationMode;
+
     StringBuilder strBuilder = new StringBuilder(word);
     //System.out.println("word: "+word);
-    //System.out.println("nextword: "+nextWord.word);
-
-    switch(iterationMode){
+    //System.out.println("iteration: "+nextWord.iterationMode);
+    //System.out.println("indexToChange" + nextWord.indexToChange);
+    switch(nextWord.iterationMode){
       case CHANGE_LETTER:
+        //System.out.println("cahnge my letter");
         strBuilder.setCharAt(indexToChange,nextLetter);
+        // if the nextword equals the current word then skip that letter
+        if ((nextLetter <'z') && word.equals(strBuilder.toString())) {
+          nextLetter++;
+          strBuilder.setCharAt(indexToChange,nextLetter);
+        }
+        nextWord.word = strBuilder.toString();
         if (nextLetter == 'z') {
-          nextWord.word = strBuilder.toString();
           nextLetter = 'a';
           indexToChange++;
           if (indexToChange == nextWord.word.length()) {
+            //System.out.println("lets try inserting");
             iterationMode++;
             nextLetter = 'a';
             indexToChange = 0;
             break;
-          } else {
-            break;
           }
+          break;
         } else {
-          if (word.equals(strBuilder.toString())) {
-            nextLetter++;
-            strBuilder.setCharAt(indexToChange,nextLetter);
-          }
-          nextWord.word = strBuilder.toString();
           nextLetter++;
           break;
         }
       case INSERT_LETTER:
-        if (nextLetter == 'z') {
+        strBuilder.insert(indexToChange,nextLetter);
+        // if the nextword equals the current word then skip that letter
+        if (nextLetter <'z' && word.equals(strBuilder.toString())) {
+          nextLetter++;
           strBuilder.insert(indexToChange,nextLetter);
-          nextWord.word = strBuilder.toString();
+        }
+        nextWord.word = strBuilder.toString();
+        if (nextLetter == 'z') {
           nextLetter = 'a';
           indexToChange++;
-          if (indexToChange > nextWord.word.length()) {
+          if (indexToChange  >= nextWord.word.length()) {
             iterationMode++;
             nextLetter = 'a';
             indexToChange = 0;
             break;
-          } else {
-            break;
           }
+          break;
         } else {
-          if (word.equals(strBuilder.toString())) {
-            nextLetter++;
-            strBuilder.setCharAt(indexToChange,nextLetter);
-          }
-          nextWord.word = strBuilder.toString();
           nextLetter++;
           break;
         }
       case DELETE_LETTER:
-        if (nextLetter == 'z') {
+        strBuilder.deleteCharAt(indexToChange);
+        // if the nextword equals the current word then skip that letter
+        if (word.equals(strBuilder.toString())) {
           strBuilder.deleteCharAt(indexToChange);
-          nextWord.word = strBuilder.toString();
-          nextLetter = 'a';
-          indexToChange++;
-          if (indexToChange == nextWord.word.length()) {
-            iterationMode++;
-            nextLetter = 'a';
-            indexToChange = 0;
-            break;
-          } else {
-            break;
-          }
-        } else {
-          strBuilder.deleteCharAt(indexToChange);
-          if (word.equals(strBuilder.toString())) {
-            nextLetter++;
-            strBuilder.setCharAt(indexToChange,nextLetter);
-          }
-          nextWord.word = strBuilder.toString();
-          nextLetter++;
+        }
+        nextWord.word = strBuilder.toString();
+        indexToChange++;
+        if (nextWord.indexToChange == nextWord.word.length()) {
+          iterationMode++;
           break;
         }
-      case DONE:
         break;
       default:
         break;
     }
-    //nextWord.word = word;
-    //System.out.println("word: "+word);
-    //System.out.println("nextword: "+nextWord.word);
+    nextWord.indexToChange = indexToChange;
+    nextWord.nextLetter = nextLetter;
+    nextWord.iterationMode = iterationMode;
     return nextWord;
+
   }
+
   /**
    * isDone method
    * @return boolean will be true if iterationMode is done and
