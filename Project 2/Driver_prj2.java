@@ -11,6 +11,7 @@ import java.util.ArrayDeque;
 import java.util.TreeMap;
 import java.util.Set;
 import java.util.Map;
+import java.util.Stack;
 
 public class Driver_prj2 {
 
@@ -18,141 +19,92 @@ public class Driver_prj2 {
 	  Scanner file = new Scanner(System.in);
 
     String valid = "";
+    String end = "";
 	  boolean flag = true;
     Boolean EndLocationFound = false;
-	  // initalize Location, and Maze
+	  // initalize start location, Maze, ArrayQueue, and TreeMap
 	  Maze newMaze = new Maze();
 	  Location start = new Location();
     ArrayQueue queue1 = new ArrayQueue();
-    //Location neighbor = new Location();
+    Stack<String> path = new Stack<String>();
+    //my ArrayQueue doesn't work right now so temporaily using ArrayDeque.
     ArrayDeque<Location> queue2 = new ArrayDeque<Location>();
     TreeMap<String,String> map1 = new TreeMap<String,String>();
+
 	  // stream in the file
 	  newMaze.streamIn(file);
 
 	  start = newMaze.getStartLocation(); // start location
 	  start.start(); // inialize the first iterationMode
-    //neighbor.start();
-    //System.out.print(queue1.getFront());
-    //queue1.add(start);
-    queue2.add(start);
-    queue2.peek().streamOut();
-    System.out.println("peek:"+ queue2.peek().word);
-    map1.put("a",(queue2.peek().word));
 
+    // add to queue and map
+    queue2.add(start);
+    map1.put(start.word,start.word);
+
+    if (newMaze.isEndLocation(start)) {
+      EndLocationFound = true;
+    }
     while (flag) {
-      if (EndLocationFound) {
+      if (EndLocationFound) { // if we found the location,there is a solution
         flag =false;
         valid = "valid";
-      } else if (queue2.isEmpty()) {
+      } else if (queue2.isEmpty()) { // if queue is empty then no solution
         flag=false;
         valid = "invalid";
-      } else {
+      } else { // else, keep searching for a next word.
         Location currentloc = new Location();
         currentloc.start();
         currentloc = queue2.peek();
-        //queue2.remove();
+        // reset iteration, letter, and indextochange
+        currentloc.iterationMode = 0;
+        currentloc.nextLetter = 'a';
+        currentloc.indexToChange = 0;
+
         Location neighbor = new Location();
         neighbor.start();
         do {
           neighbor = currentloc.nextNeighbor();
-          neighbor.streamOut();
           if (newMaze.isValidLocation(neighbor)) {
-            if (map1.containsValue(neighbor.word) &&
-                map1.get(neighbor.word) == currentloc.word){
-              // if the map contains the neighbor as a value and the key is
-              // the current loc, then we have already placed this on the map.
-              System.out.println("trouble word:"+neighbor.word);
-            } else {
-              System.out.println("Putting on map:"+neighbor.word);
-              queue2.add(neighbor);
-              map1.put(currentloc.word,neighbor.word);
-            }
 
+            if (map1.get(neighbor.word) == null) {
+              // if the map doesn't have a value for a key of the
+              // neighbor then we have not placed this on the map.
+              queue2.add(neighbor);
+              map1.put(neighbor.word,currentloc.word);
+            }
           }
           if (newMaze.isEndLocation(neighbor)){
             EndLocationFound = true;
+            end = neighbor.word;
           }
-          //currentloc.streamOut();
         } while (!neighbor.isDone());
-        System.out.println("the next currentloc:"+queue2.peek().word);
         queue2.remove();
-        System.out.println("H");
-        queue2.peek().streamOut();
-        System.out.print("H");
       }
-
-
     }
+    // if statement to print valid and invlaid messages
     if (valid == "valid"){
-      System.out.println("Solution Found:");
-      for(Map.Entry<String,String> words: map1.entrySet()) {
-        System.out.println(words.getValue());
+      System.out.println("Solution found:");
+      // print out map to stack
+      if (newMaze.isEndLocation(start)) { 
+        path.push(start.word);
+      } else {
+        String key = "key";
+        key = end;
+        while (!key.equals(map1.get(key))) {
+          String value = map1.get(key);
+          path.push(key);
+          key = value;
+        }
+        path.push(map1.get(key));
       }
-      // print out map
-    } else {
-      System.out.println("No Soultion Found");
-    }
 
-
-    //while ((queue1.getFront() != null) && EndLocationFound) {
-  //  while ((queue2.peek() != null) && (!EndLocationFound)) {
-
-      //System.out.println("The neighbor:");
-      //neighbor.streamOut();
-      //queue2.add(neighbor);
-      //System.out.println(neighbor.isDone());
-      //map1.put(currentloc.word,neighbor.word);
-
-      //queue2.peek().streamOut();
-  //  }
-
-
-
-
-    //test isValid and isEnd methods
-    /*
-    if (newMaze.isValidLocation(start)) {
-      System.out.println(start.word +" is valid! :) " );
-    } else {
-      System.out.println(start.word +" is not valid. :( ");
-    }
-
-    if (newMaze.isEndLocation(start)) {
-      System.out.println(start.word +" is the end! :) " );
-    } else {
-      System.out.println(start.word +" is not the end. :( ");
-    }
-
-    /**queue1.add(start);
-    queue1.getFront().streamOut();
-    neighbor = start.nextNeighbor();
-    neighbor.streamOut();
-    queue1.add(neighbor);
-    queue1.getFront().streamOut();
-    neighbor = neighbor.nextNeighbor();
-    queue1.add(neighbor);
-    queue1.getFront().streamOut();
-    // test the isLess method
-    /*if (start.isLess(loc2)) {
-      System.out.print(loc.word+" is less then "+loc2.word);
-    } else {
-      System.out.print(loc.word+" is not less then "+loc2.word);
-    }*/
-    // test the isEqual and the nextNeighbor method
-  /*  while (!loc.isEqual(loc2)){
-      loc = loc.nextNeighbor();
-      loc.streamOut();
-    }*/
-
-    // what the logic will start to look like once maze is working
-    /*while (!loc.isEqual(loc2)){
-      compare = loc.nextNeighbor();
-      if (newMaze.isValidLocation(compare)) {
-        loc = compare;
+      // print path in correct order
+      while (!path.isEmpty()) {
+        System.out.println(path.pop());
       }
-      compare.streamOut();
-    }*/
+    } else {
+      System.out.println("No solution found");
+    }
 
   }
 }

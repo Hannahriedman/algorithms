@@ -14,7 +14,7 @@ class ArrayQueue {
   private void doubleCapacity() {
     // when you try to add something and its full evoke this
     // copy items in the way they were thought of
-    System.out.println("hello");
+    //System.out.println("hello");
     ArrayQueue doubleCap = new ArrayQueue();
     doubleCap.data = (Location[]) new Location[capacity*2];
     doubleCap = doubleCap.copyFrom(this);
@@ -49,9 +49,9 @@ class ArrayQueue {
    */
   void add(Location loc) {
     // adds location and then moves front if front isn't 0
-    System.out.println("The loc to add: ");
+    //System.out.println("The loc to add: ");
     loc.streamOut();
-    System.out.println("front:"+front+"length:"+length+"capacity"+capacity);
+    //System.out.println("front:"+front+"length:"+length+"capacity"+capacity);
     //length++ // you need to increase the length
     // if the length is greater then capacity you need to doubleCapacity
 
@@ -67,7 +67,7 @@ class ArrayQueue {
         length++;
       }
     }
-    System.out.println("front:"+front+" length:"+length+" capacity"+capacity);
+    //System.out.println("front:"+front+" length:"+length+" capacity"+capacity);
   }
 
   /**
