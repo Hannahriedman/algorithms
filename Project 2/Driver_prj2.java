@@ -5,7 +5,6 @@
  * 2-7-18
  * first Driver for the Word-Melt Solver project
  */
-
 import java.util.Scanner;
 import java.util.ArrayDeque;
 import java.util.TreeMap;
@@ -65,7 +64,6 @@ public class Driver_prj2 {
         do {
           neighbor = currentloc.nextNeighbor();
           if (newMaze.isValidLocation(neighbor)) {
-
             if (map1.get(neighbor.word) == null) {
               // if the map doesn't have a value for a key of the
               // neighbor then we have not placed this on the map.
@@ -85,7 +83,7 @@ public class Driver_prj2 {
     if (valid == "valid"){
       System.out.println("Solution found:");
       // print out map to stack
-      if (newMaze.isEndLocation(start)) { 
+      if (newMaze.isEndLocation(start)) {
         path.push(start.word);
       } else {
         String key = "key";
@@ -105,6 +103,5 @@ public class Driver_prj2 {
     } else {
       System.out.println("No solution found");
     }
-
   }
 }

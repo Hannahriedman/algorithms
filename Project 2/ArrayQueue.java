@@ -32,11 +32,11 @@ class ArrayQueue {
     this.front = this.front;
     this.data = null;
 
-  //copy items
-  for(int i = 0; i <= (length); i++) {
-    this.data[i-front].streamOut();
-    this.data[i-front] = q.data[i%capacity];
-  }
+    //copy items
+    for(int i = 0; i <= (length); i++) {
+      this.data[i-front].streamOut();
+      this.data[i-front] = q.data[i%capacity];
+    }
   }
   /**
    * add method
@@ -115,7 +115,6 @@ class ArrayQueue {
     }
 		//data = copyQueue;
 		front = 0;
-		//back = front-1;
 		capacity *= 2;
     return this;
   }

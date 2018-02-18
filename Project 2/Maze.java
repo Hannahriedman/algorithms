@@ -4,9 +4,8 @@
  * Student name: Hannah Riedman
  *
  * Maze class for the Word-Melt Solver.
- * Modifed code from Professor Rivas. 
+ * Modifed code from Professor Rivas.
  */
-
 import java.util.*;
 import java.util.Set;
 import java.util.TreeSet;
@@ -22,8 +21,6 @@ class LocationComp implements Comparator<Location> {
 
 class Maze {
   private Set<Location> validLocations;
-  //private TreeSet<Location> validLocations;
-
   private Location startLocation;
   private Location endLocation;
 

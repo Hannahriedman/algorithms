@@ -6,7 +6,7 @@
  * Location class for the Word-Melt Solver.
  * Modifed code from Professor Rivas.
  */
- import java.util.Scanner;
+import java.util.Scanner;
 
 class Location {
   final int CHANGE_LETTER = 0;
@@ -44,12 +44,9 @@ class Location {
     nextWord.iterationMode = iterationMode;
 
     StringBuilder strBuilder = new StringBuilder(word);
-    //System.out.println("word: "+word);
-    //System.out.println("iteration: "+nextWord.iterationMode);
-    //System.out.println("indexToChange" + nextWord.indexToChange);
+
     switch(nextWord.iterationMode){
       case CHANGE_LETTER:
-        //System.out.println("cahnge my letter");
         strBuilder.setCharAt(indexToChange,nextLetter);
         // if the nextword equals the current word then skip that letter
         if ((nextLetter <'z') && word.equals(strBuilder.toString())) {
@@ -114,7 +111,6 @@ class Location {
     nextWord.nextLetter = nextLetter;
     nextWord.iterationMode = iterationMode;
     return nextWord;
-
   }
 
   /**
