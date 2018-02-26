@@ -15,26 +15,26 @@ import java.util.Stack;
 public class Driver_prj2 {
 
   public static void main(String[] args) {
-	  Scanner file = new Scanner(System.in);
+    Scanner file = new Scanner(System.in);
 
     String valid = "";
     String end = "";
-	  boolean flag = true;
+    boolean flag = true;
     Boolean EndLocationFound = false;
-	  // initalize start location, Maze, ArrayQueue, and TreeMap
-	  Maze newMaze = new Maze();
-	  Location start = new Location();
+    // initalize start location, Maze, ArrayQueue, and TreeMap
+    Maze newMaze = new Maze();
+    Location start = new Location();
     ArrayQueue queue1 = new ArrayQueue();
     Stack<String> path = new Stack<String>();
     //my ArrayQueue doesn't work right now so temporaily using ArrayDeque.
     ArrayDeque<Location> queue2 = new ArrayDeque<Location>();
     TreeMap<String,String> map1 = new TreeMap<String,String>();
 
-	  // stream in the file
-	  newMaze.streamIn(file);
+    // stream in the file
+    newMaze.streamIn(file);
 
-	  start = newMaze.getStartLocation(); // start location
-	  start.start(); // inialize the first iterationMode
+    start = newMaze.getStartLocation(); // start location
+    start.start(); // inialize the first iterationMode
 
     // add to queue and map
     queue2.add(start);
