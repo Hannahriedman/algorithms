@@ -46,21 +46,21 @@ class Location {
 
     switch(nextDirection) {
       case RIGHT:
-    	  currentLoc.col = (col+1);
+        currentLoc.col = (col+1);
         break;
       case DOWN:
-    	  currentLoc.row = (row+1);
-    	  break;
+        currentLoc.row = (row+1);
+        break;
       case LEFT:
-    	  currentLoc.col = (col-1);
+        currentLoc.col = (col-1);
         break;
       case UP:
-    	  currentLoc.row = (row-1);
+        currentLoc.row = (row-1);
         break;
       case DONE:
         return currentLoc;
       default:
-    	  return currentLoc;
+        return currentLoc;
     }
     nextDirection++;
     return currentLoc;
@@ -80,10 +80,10 @@ class Location {
    */
   boolean isEqual(Location loc) {  // const
     if (row == loc.row && col == loc.col) {
-	    return true;
-	  } else {
-	    return false;
-	  }
+      return true;
+    } else {
+      return false;
+    }
 
   }
   /**
@@ -106,7 +106,7 @@ class Location {
 
   @Override
   public String toString() {
-	  return row + " " + col;
+    return row + " " + col;
   }
 
 }

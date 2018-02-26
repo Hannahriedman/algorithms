@@ -24,7 +24,7 @@ class Maze {
   Maze() {
     this.startLocation = null;
     this.endLocation = null;
-    this.validLocations = null;
+    // this.validLocations = null;
   }
   /**
    * GetStartLocation method
@@ -40,7 +40,7 @@ class Maze {
    * @return boolean will be true if location is valid
    */
   boolean isValidLocation(Location loc) {
-	  boolean valid = false; // boolean that returns result
+    boolean valid = false; // boolean that returns result
     for (int i=0; i < validLocations.length;i++) {
       if (loc.isEqual(validLocations[i])) {
         valid= true;
@@ -77,15 +77,15 @@ class Maze {
       // adds all the valid loactions to the array
       if (i < validLocationCount) {
         Location loc = new Location();
-    	  loc.streamIn(input);
+        loc.streamIn(input);
         validLocations[i] = loc;
       } else {
-    	  startLocation = new Location();
-    	  endLocation = new Location();
+        startLocation = new Location();
+        endLocation = new Location();
 
-    	  startLocation.streamIn(input);
-    	  endLocation.streamIn(input);
+        startLocation.streamIn(input);
+        endLocation.streamIn(input);
       }
     }
-  }
+  // }
 }

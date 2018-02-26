@@ -25,7 +25,7 @@ class LocationStack {
    */
   void push(Location loc) {
     LocationStackNode newNode = new LocationStackNode(loc, this.top);
-	  this.top = newNode;
+    this.top = newNode;
   }
   /**
   * Pop method
@@ -42,10 +42,10 @@ class LocationStack {
   */
   Location getTop() {
     if(isEmpty() == false) {
-	    return top.getLocation();
-	  } else {
-	    return null;
-	  }
+      return top.getLocation();
+    } else {
+      return null;
+    }
   }
   /**
    * IsEmpty method
@@ -64,29 +64,29 @@ class LocationStack {
    * was on the stack.
    */
   boolean isOn(Location loc) {
-	  boolean itsOnStack = false; // boolean we will return
-	  // array list to hold elements on the stack while we traverse through it
+    boolean itsOnStack = false; // boolean we will return
+    // array list to hold elements on the stack while we traverse through it
     ArrayList<Location> stackCopy = new ArrayList<Location>();
     int count = 0; // count variable to track how deep in stack we are
 
     // while the stack is not empty, we will compare the passed in location to
     // elements on the stack.
-	  while (this.isEmpty() != true)  {
-	    Location comparison = getTop();
-	    if(loc.toString().equals(comparison.toString())) {
-	      itsOnStack = true;
-	      break; // break out of the loop if we have found a match
-	    } else {
-		    stackCopy.add(comparison); // add the current top of stack to arraylist
-		    this.pop(); // remove top of stack so we can compare next element
-		    count++;
-	    }
-	  }
-	  // this for loop will iteratite for amount of times we "pop"ed elemnets from stack
-	  while (count != 0) {
-	    this.push(stackCopy.get(count-1)); // putting the stack back to normal
-	    count--;
-	  }
+    while (this.isEmpty() != true)  {
+      Location comparison = getTop();
+      if(loc.toString().equals(comparison.toString())) {
+        itsOnStack = true;
+        break; // break out of the loop if we have found a match
+      } else {
+        stackCopy.add(comparison); // add the current top of stack to arraylist
+        this.pop(); // remove top of stack so we can compare next element
+        count++;
+      }
+    }
+    // this for loop will iteratite for amount of times we "pop"ed elemnets from stack
+    while (count != 0) {
+      this.push(stackCopy.get(count-1)); // putting the stack back to normal
+      count--;
+    }
     return itsOnStack; // return boolean
   }
   /**
@@ -100,8 +100,8 @@ class LocationStack {
   void streamOut(LocationStack s) {
     LocationStack reverse = new LocationStack();
     Location topOfStack;
-	  while (s.isEmpty() != true)  {
-	    topOfStack = s.getTop();
+    while (s.isEmpty() != true)  {
+      topOfStack = s.getTop();
       reverse.push(topOfStack);
       s.pop();
     }
@@ -133,6 +133,6 @@ class LocationStackNode {
   }
   void setNextNode(LocationStackNode next) {
     LocationStackNode newNode = new LocationStackNode(location, next);
-	  next = newNode;
+    next = newNode;
   }
 }
