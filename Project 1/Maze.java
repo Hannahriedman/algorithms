@@ -87,5 +87,5 @@ class Maze {
         endLocation.streamIn(input);
       }
     }
-  // }
+  }
 }
