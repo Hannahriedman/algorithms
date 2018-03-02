@@ -1,39 +1,12 @@
-import java.util.Scanner;
-
-/* A BSTNode represents a node in a binary search tree. Each BSTNode object
- * stores a single item (called "data"). Each object also has left and right
- * pointers, which point to the left and right subtrees.
- *
- * The BST can be seen as superclass of the BSTNode class, so that the BST 
- * may make changes to the internals of a BSTNode.
- *
- * The constructor is provided for you; read it carefully.
- *
- * The getLeft(), getRight(), and getData() methods are useful for the
- * EncryptionTree class (or any class that wants to have read-only access to the
- * nodes of a BST).
- *
- * The printPreorder() traverses this node and its children recursively in
- * pre-order and prints each node it visits to standard output (i.e.
- * System.in). It presumes that "data" can be printed; that is, 
- * "System.out.print(this.data)" is a statement that makes sense. At each 
- * level of the tree it adds two spaces of indentation to show the structure 
- * of the tree. The run-time of printPreorder() is O(n). Can you figure out 
- * why?  Could it be made more efficient?
- *
- * The minNode() and maxNode() methods are useful in verifySearchOrder(). They
- * should find the leftmost and rightmost node at or below the node they are
- * called on. These can be implemented recursively or iteratively.
- *
- * The function verifySearchOrder() can be used to do verifications of the
- * binary search tree's order. It can and should be used for testing purposes.
- * If you implement minNode() and maxNode() efficiently, the run-time of
- * verifySearchOrder() is O(n^2) for this (potentially unbalanced) tree. Can you
- * figure out why?  Could it be made more efficient using different techniques?
- *
- * No one may call the copy constructor on a BSTNode, it is hereby forbidden,
- * so it is protected and will crash the program if called.
+/* CMPT 435
+ * Project 3 -- Tree-based encryption and decryption
+ * Filename: BST.java
+ * Student name: Hannah Riedman
+ * 3-1-18
+ * includes BSTNode, BST, and EncryptionTree class
  */
+
+import java.util.Scanner;
 
 class BSTNode {
   protected  BSTNode(BSTNode t) { assert(false); }
@@ -49,17 +22,56 @@ class BSTNode {
   public BSTNode getLeft()  { return left;  }
   public BSTNode getRight()  { return right; }
   public String getData()    { return data;  }
-  
+
   public void printPreorder() {
     String indent = "";
-    //-
+    System.out.println(indent + data);
+    if (this.left == null) {
+      System.out.println("  null");
+    } else {
+      this.left.printPreorder("  ");
+    }
+    if (this.right == null) {
+      System.out.println("  null");
+    } else {
+      this.right.printPreorder("  ");
+    }
   }
-   
-  public BSTNode minNode() { 
-    //-
+  public void printPreorder(String indent) { //overload of method
+    if (data == null) {
+      System.out.println(indent+"null");
+    } else {
+      System.out.println(indent + data);
+    }
+    if (this.left == null) {
+      System.out.println(indent+"null");
+    } else {
+      this.left.printPreorder(indent+"  ");
+    }
+    if (this.right == null) {
+      System.out.println(indent+"null");
+    } else {
+      this.right.printPreorder(indent+"  ");
+    }
+
   }
-  public BSTNode maxNode() { 
-    //- 
+
+  public BSTNode minNode() {
+    //assert(root != null);
+    BSTNode node = this;
+    while (node.left != null) {
+      node = node.left;
+    }
+    return node;
+  }
+
+  public BSTNode maxNode() {
+    //assert(root != null);
+    BSTNode node = this;
+    while (node.right != null) {
+      node = node.right;
+    }
+    return node;
   }
 
   /* professor's implementation of verifySearchOrder(); don't change it */
@@ -75,40 +87,92 @@ class BSTNode {
   }
 }
 
-/* A BST is a String-based class, but could easily be coded as a generic-type 
- * type class (e.g. with T), that represents a binary search tree. It has one
- * data member, "root", which is a pointer to the root of the tree.
- *
- * The constructor is provided for you.
- *
- * The insert() method places the given item in the tree, unless the item is
- * already in the tree. The insertion should follow the algorithm we discuss in
- * class.
- *
- * The remove() method removes the given item from the tree, if it is in the
- * tree. The remove should follow the algorithm we discuss in class.
- *
- * The printPreorder() and verifySearchOrder() methods simply calls the relevant
- * per-node methods on the root.
- *
- * No one may call the copy constructor on a BST, it is hereby forbidden, so
- * it is protected and will crash the program if called.
- */
 class BST {
   protected BST(BST t) { assert(false); }
   protected BST isEqual(BST t) { assert(false); return this; }
-  
+
   protected BSTNode root;
 
   public BST() {
-    root = null; 
+    root = null;
   }
+  // compareto returns a negitive if the string being compared is greater
+  public void insert(String item) {
+    BSTNode curNode = this.root;
+    boolean flag = true;
+    while (flag) {
+      int compareItem =curNode.data.compareToIgnoreCase(item);
+      System.out.println(curNode.data+" compareto "+item+" ="+compareItem);
+      if (compareItem < 0) { // right
 
-  public void insert(String item) { 
-    //- 
+        if (curNode.right == null) { // insert item
+          BSTNode newNode = new BSTNode(item, null, null);
+          curNode.right = newNode;
+          System.out.println("Adding "+newNode.data);
+          flag = false;
+        } else {
+          curNode = curNode.right;
+        }
+        //System.out.print(curNode.data);
+      } else if (compareItem > 0) { // left
+        if (curNode.left == null) { // insert item
+          BSTNode newNode = new BSTNode(item, null, null);
+          curNode.left = newNode;
+          System.out.println("Adding "+newNode.data);
+          flag = false;
+        } else {
+          curNode = curNode.left;
+        }
+      }
+    }
   }
-  public void remove(String item) { 
-    //- 
+  public void remove(String item) {
+    /**BSTNode<T> parent = root;
+    // removing a leaf nodes
+    if (parent.left == item) {
+      parent.left = null;
+    } else {
+      parent.right = null;
+    }
+    item = null;
+
+
+    // removing ndoe with 1 child
+    if (item.left != null) {
+      grandchild = item.left;
+      item.left = null;
+    } else {
+      grandchild = item.right;
+      item.right = null;
+    }
+    if (parent.left == item) {
+      parent.left = grandchild;
+    } else {
+      parent.right = grandchild;
+    }
+    item = null;
+
+    // removing node with 2 children
+    BSTNode leftmost = item.right;
+    leftmost.parent = item;
+    if (leftmost.left != null) {
+      while (leftmost.left != null) {
+        leftmost.parent = leftmost;
+        leftmost = leftmost.left;
+      }
+      leftmost.left = item.left;
+      leftmost.right = item.right;
+    }
+    leftmost.left = item.left;
+    // parent is null? - means its a root
+    if (parent.left == item) {
+      parent.left = leftmost;
+    } else {
+      parent.right = leftmost;
+    }
+    item.left = null;
+    item.right = null;
+    item = null;*/
   }
 
   public void printPreorder() { if (root != null) root.printPreorder(); }
@@ -116,33 +180,40 @@ class BST {
 
 }
 
-/* An EncryptionTree is a special type of BST which knows how to encrypt a
- * String object (e.g. word) into a string that represents the path to the 
- * object in the tree, and decrypt a path into the String object (e.g. word) 
- * it leads to.
- *
- * The constructor method is provided for you.
- *
- * The encrypt() method takes a String object and returns a string of the form 
- * "rX" where "r" is a literal letter r, and X is a sequence of 0 and 1 
- * characters (which may be empty). The r stands for "root", and each 0 and 1 
- * represent the left/right path from the root to the given object, with 0 
- * indicating a left-branch and 1 indicating a right-branch. If the object is 
- * not in the dictionary, an empty string (or the string "?") should be 
- * returned.
- *
- * The decrypt() method takes an encrypted string (or path through the tree) in
- * the form provided by encrypt(). It should return a pointer to the associated
- * string for the given path (or NULL if the path is invalid).
- */
 class EncryptionTree extends BST {
   public EncryptionTree() {}
-  
+
   public String encrypt(String item) {
-    //-
+    BSTNode curNode = root;
+    boolean found = false;
+    String path = "r";
+    int compareItem = curNode.data.compareToIgnoreCase(item);
+    while ((curNode != null)&& (!found)) {
+      if (item == curNode.data) {
+        found = true;
+      } else if (compareItem > 0) { // left path
+        curNode = curNode.left;
+        path = path+"0";
+      } else { // right path
+        curNode = curNode.right;
+        path = path+"1";
+      }
+    }
+    return path;
   }
-  public String decrypt(String path) { 
-    //-
+  public String decrypt(String path) {
+    BSTNode curNode = root;
+    String item = "NULL";
+    String direction = "2";
+
+    for (int i=0;i<path.length();i++) {
+      direction = path.substring(i,i+1);
+      if (direction == "0") { // left
+        curNode = curNode.left;
+      } else if (direction == "1") { // right
+        curNode = curNode.right;
+      }
+    }
+    return item;
   }
 }
-
