@@ -187,33 +187,47 @@ class EncryptionTree extends BST {
     BSTNode curNode = root;
     boolean found = false;
     String path = "r";
-    int compareItem = curNode.data.compareToIgnoreCase(item);
+
     while ((curNode != null)&& (!found)) {
-      if (item == curNode.data) {
+      int compareItem = curNode.data.compareToIgnoreCase(item);
+      //System.out.println(curNode.data+" compareto "+item+" ="+compareItem);
+      if (compareItem == 0) {
         found = true;
       } else if (compareItem > 0) { // left path
         curNode = curNode.left;
         path = path+"0";
-      } else { // right path
+      } else if (compareItem < 0) { // right path
         curNode = curNode.right;
         path = path+"1";
       }
     }
+    if (!found) {
+      path = "?";
+    }
     return path;
   }
+  
   public String decrypt(String path) {
     BSTNode curNode = root;
-    String item = "NULL";
+    String item = "?";
     String direction = "2";
 
     for (int i=0;i<path.length();i++) {
       direction = path.substring(i,i+1);
-      if (direction == "0") { // left
+      System.out.println("Direction:"+direction);
+      //System.out.println(direction.equals("0"));
+      //System.out.println(direction.equals("1"));
+      if (direction.equals("0")) { // left
         curNode = curNode.left;
-      } else if (direction == "1") { // right
+        item = curNode.data;
+      } else if (direction.equals("1")) { // right
         curNode = curNode.right;
+        item = curNode.data;
+      } else if (direction.equals("r")) {
+        item = root.data;
       }
     }
+
     return item;
   }
 }
