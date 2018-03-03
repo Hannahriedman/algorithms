@@ -25,6 +25,9 @@ class BSTNode {
 
   public void printPreorder() {
     String indent = "";
+    if (data == null) {
+      return;
+    }
     System.out.println(indent + data);
     if (this.left == null) {
       System.out.println("  null");
@@ -98,17 +101,24 @@ class BST {
   }
   // compareto returns a negitive if the string being compared is greater
   public void insert(String item) {
-    BSTNode curNode = this.root;
     boolean flag = true;
+
+    if (root == null) { // this is the root item
+      BSTNode newNode = new BSTNode(item, null, null);
+      root = newNode;
+      flag = false;
+    }
+    BSTNode curNode = this.root;
+
     while (flag) {
       int compareItem =curNode.data.compareToIgnoreCase(item);
-      System.out.println(curNode.data+" compareto "+item+" ="+compareItem);
+      //System.out.println(curNode.data+" compareto "+item+" ="+compareItem);
       if (compareItem < 0) { // right
 
         if (curNode.right == null) { // insert item
           BSTNode newNode = new BSTNode(item, null, null);
           curNode.right = newNode;
-          System.out.println("Adding "+newNode.data);
+          //System.out.println("Adding "+newNode.data);
           flag = false;
         } else {
           curNode = curNode.right;
@@ -118,7 +128,7 @@ class BST {
         if (curNode.left == null) { // insert item
           BSTNode newNode = new BSTNode(item, null, null);
           curNode.left = newNode;
-          System.out.println("Adding "+newNode.data);
+          //System.out.println("Adding "+newNode.data);
           flag = false;
         } else {
           curNode = curNode.left;
@@ -206,28 +216,34 @@ class EncryptionTree extends BST {
     }
     return path;
   }
-  
+
   public String decrypt(String path) {
     BSTNode curNode = root;
     String item = "?";
     String direction = "2";
-
     for (int i=0;i<path.length();i++) {
       direction = path.substring(i,i+1);
-      System.out.println("Direction:"+direction);
+      //System.out.println("Direction:"+direction);
       //System.out.println(direction.equals("0"));
       //System.out.println(direction.equals("1"));
       if (direction.equals("0")) { // left
         curNode = curNode.left;
+        if (curNode == null) {
+          item = "?";
+          break;
+        }
         item = curNode.data;
       } else if (direction.equals("1")) { // right
         curNode = curNode.right;
+        if (curNode == null) {
+          item = "?";
+          break;
+        }
         item = curNode.data;
       } else if (direction.equals("r")) {
         item = root.data;
       }
     }
-
     return item;
   }
 }
