@@ -22,11 +22,14 @@ public class Driver_prj3 {
     String command = "";
     String content = "";
     String result = "";
+    Boolean flag = false;
     while (file.hasNext()){
       String currentLine = file.nextLine();
       //System.out.println(currentLine);
       command = currentLine.substring(0,1);
-
+      if (flag){ // if user has invoked quit
+        break;
+      }
       //System.out.println("Command:"+command);
       //System.out.println("Content:"+content);
       switch (command) {
@@ -73,6 +76,7 @@ public class Driver_prj3 {
           newtree.printPreorder();
           break;
         case "q": // quit the program
+          flag = true;
           break;
         default:
           break;

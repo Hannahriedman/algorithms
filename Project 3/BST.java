@@ -137,52 +137,87 @@ class BST {
     }
   }
   public void remove(String item) {
-    /**BSTNode<T> parent = root;
-    // removing a leaf nodes
-    if (parent.left == item) {
-      parent.left = null;
-    } else {
-      parent.right = null;
+    boolean flag = true;
+    BSTNode parent = null;
+    BSTNode curNode = this.root;
+    BSTNode grandchild = null;
+    if (root == null) { // if there is nothing to remove
+      // do nothing
+      flag = false;
     }
-    item = null;
 
-
-    // removing ndoe with 1 child
-    if (item.left != null) {
-      grandchild = item.left;
-      item.left = null;
-    } else {
-      grandchild = item.right;
-      item.right = null;
-    }
-    if (parent.left == item) {
-      parent.left = grandchild;
-    } else {
-      parent.right = grandchild;
-    }
-    item = null;
-
-    // removing node with 2 children
-    BSTNode leftmost = item.right;
-    leftmost.parent = item;
-    if (leftmost.left != null) {
-      while (leftmost.left != null) {
-        leftmost.parent = leftmost;
-        leftmost = leftmost.left;
+    while ((curNode != null)&& (flag)) {
+      int compareItem =curNode.data.compareToIgnoreCase(item);
+      //System.out.println(curNode.data+" compareto "+item+" ="+compareItem);
+      if (compareItem < 0) { // right
+        parent = curNode;
+        curNode = curNode.right;
+      } else if (compareItem > 0) { // left
+        parent = curNode;
+        curNode = curNode.left;
+      } else if (compareItem == 0) {
+        flag = false;
       }
-      leftmost.left = item.left;
-      leftmost.right = item.right;
     }
-    leftmost.left = item.left;
-    // parent is null? - means its a root
-    if (parent.left == item) {
-      parent.left = leftmost;
-    } else {
-      parent.right = leftmost;
+    if (flag) {
+      return;
+    } //else if (curNode.equals(root)) {
+      //parent = null;
+    //}
+    // removing a leaf nodes
+    if (curNode.left == null && curNode.right == null) {
+      if (parent.left == curNode) {
+        parent.left = null;
+      } else if (parent.right == curNode){
+        parent.right = null;
+      }
+      curNode = null;
+    // removing node with 1 child
+    } else if ((curNode.left == null && curNode.right != null) ||
+               (curNode.left != null && curNode.right == null)) {
+      if (curNode.left != null) {
+        grandchild = curNode.left;
+        curNode.left = null;
+      } else {
+        grandchild = curNode.right;
+        curNode.right = null;
+      }
+
+      if (parent.left == curNode) {
+        parent.left = grandchild;
+      } else {
+        parent.right = grandchild;
+      }
+      curNode = null;
+    // removing node with 2 children
+    } else if (curNode.left != null && curNode.right != null) {
+      BSTNode leftmost = curNode.right;
+      BSTNode leftmostParent = curNode;
+
+      if (leftmost.left != null) {
+        while (leftmost.left != null) {
+          leftmostParent = leftmost;
+          leftmost = leftmost.left;
+        }
+        leftmostParent.left = leftmost.right;
+        leftmost.right = curNode.left;
+      }
+      leftmost.left = curNode.left;
+      if (curNode.equals(root)) {
+        parent = null;
+      }else if (parent.left.equals(curNode)) { // if the parent
+        parent.left = leftmost;
+      } else {
+        parent.right = leftmost;
+      }
+      if (parent == null){
+        root = leftmost;
+        
+      }
+      curNode.left = null;
+      curNode.right = null;
+      curNode = null;
     }
-    item.left = null;
-    item.right = null;
-    item = null;*/
   }
 
   public void printPreorder() { if (root != null) root.printPreorder(); }
