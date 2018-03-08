@@ -22,6 +22,7 @@ public class Driver_prj3 {
     String command = "";
     String content = "";
     String result = "";
+    int space = 0;
     Boolean flag = false;
     while (file.hasNext()){
       String currentLine = file.nextLine();
@@ -34,7 +35,7 @@ public class Driver_prj3 {
       //System.out.println("Content:"+content);
       switch (command) {
         case "i": // insert word
-          content = currentLine.substring(2);
+          content = currentLine.substring(2).trim();
           newtree.insert(content);
           break;
         case "r": // remove word
@@ -42,9 +43,10 @@ public class Driver_prj3 {
           newtree.remove(content);
           break;
         case "e": // encrypt message
-          content = currentLine.substring(3);
+          space = currentLine.indexOf("'");
+          content = currentLine.substring(space);
           while (!content.isEmpty()) {
-            int space = content.indexOf(' ');
+            space = content.indexOf(' ');
             //System.out.println("index:"+space);
             if (space == -1){ // reached end of string
               space = content.indexOf("'"); // must now use the end ' as index
@@ -58,10 +60,11 @@ public class Driver_prj3 {
           result = "";
           break;
         case "d": // decrypt message
-          content = currentLine.substring(3);
+          space = currentLine.indexOf("'");
+          content = currentLine.substring(space);
           //System.out.println(content);
           while (!content.isEmpty()) {
-            int space = content.indexOf(' ');
+            space = content.indexOf(' ');
             if (space == -1){ // reached end of string
               space = content.indexOf("'"); // must now use the end ' as index
             }
@@ -71,6 +74,7 @@ public class Driver_prj3 {
             content = content.substring(space+1);
           }
           System.out.println(result.trim());
+          result = "";
           break;
         case "p": // print the codebook
           newtree.printPreorder();

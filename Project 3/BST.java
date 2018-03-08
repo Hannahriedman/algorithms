@@ -35,24 +35,24 @@ class BSTNode {
       this.left.printPreorder("  ");
     }
     if (this.right == null) {
-      System.out.println("  null");
+      System.out.println("  NULL");
     } else {
       this.right.printPreorder("  ");
     }
   }
   public void printPreorder(String indent) { //overload of method
     if (data == null) {
-      System.out.println(indent+"null");
+      System.out.println(indent+"  NULL");
     } else {
       System.out.println(indent + data);
     }
     if (this.left == null) {
-      System.out.println(indent+"null");
+      System.out.println(indent+"  NULL");
     } else {
       this.left.printPreorder(indent+"  ");
     }
     if (this.right == null) {
-      System.out.println(indent+"null");
+      System.out.println(indent+"  NULL");
     } else {
       this.right.printPreorder(indent+"  ");
     }
@@ -161,10 +161,8 @@ class BST {
     }
     if (flag) {
       return;
-    } //else if (curNode.equals(root)) {
-      //parent = null;
-    //}
-    // removing a leaf nodes
+    }
+    // removing leaf node
     if (curNode.left == null && curNode.right == null) {
       if (parent.left == curNode) {
         parent.left = null;
@@ -203,16 +201,28 @@ class BST {
         leftmost.right = curNode.left;
       }
       leftmost.left = curNode.left;
-      if (curNode.equals(root)) {
+      leftmost.right = curNode.right;
+    /**  if (curNode.equals(root)) {
         parent = null;
-      }else if (parent.left.equals(curNode)) { // if the parent
+      }else*/
+      //System.out.println(leftmost.data);
+      //System.out.println(leftmost.left.data);
+      //System.out.println(leftmost.right.data);
+      if (parent == null) {
+        root = leftmost;
+
+      } else if (parent.left.equals(curNode)) { // if the parent
         parent.left = leftmost;
-      } else {
+      } else if (parent.right.equals(curNode)){
         parent.right = leftmost;
       }
+      //System.out.println(leftmost.data);
+      //System.out.println(leftmost.left.data);
+      //System.out.println(leftmost.right.data);
+      //System.out.println(curNode.data);
       if (parent == null){
         root = leftmost;
-        
+
       }
       curNode.left = null;
       curNode.right = null;
