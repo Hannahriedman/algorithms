@@ -11,31 +11,25 @@ public class Driver_prj3 {
 
   public static void main(String[] args) {
     Scanner file = new Scanner(System.in);
-    //BST newtree2 = new BST();
+
     EncryptionTree newtree = new EncryptionTree();
-    //String root = file.nextLine();
-    //newtree.root = new BSTNode(root,null,null);
-    //System.out.println("adding the root: "+root);
-    //newtree.insert((file.nextLine()));
-    //newtree.printPreorder();
-    //String currentLine = file.nextLine();
     String command = "";
     String content = "";
+    String[] content1;
     String result = "";
+    String[] splitContents;
     int space = 0;
     Boolean flag = false;
     while (file.hasNext()){
       String currentLine = file.nextLine();
-      //System.out.println(currentLine);
       command = currentLine.substring(0,1);
       if (flag){ // if user has invoked quit
         break;
       }
-      //System.out.println("Command:"+command);
-      //System.out.println("Content:"+content);
+
       switch (command) {
         case "i": // insert word
-          content = currentLine.substring(2).trim();
+          content = currentLine.substring(2); //.trim();
           newtree.insert(content);
           break;
         case "r": // remove word
@@ -43,37 +37,38 @@ public class Driver_prj3 {
           newtree.remove(content);
           break;
         case "e": // encrypt message
-          space = currentLine.indexOf("'");
-          content = currentLine.substring(space);
-          while (!content.isEmpty()) {
-            space = content.indexOf(' ');
-            //System.out.println("index:"+space);
-            if (space == -1){ // reached end of string
-              space = content.indexOf("'"); // must now use the end ' as index
+         // TODO fix encrypt for the first word is becoming question mark
+          content1 = currentLine.split("'");
+          splitContents = content1[1].split(" ");
+          for (int i=0;i < splitContents.length; i++) {
+            //System.out.println("word:"+splitContents[i]);
+            String word = splitContents[i];
+            if (!word.equals(" ")) {
+              if (i == splitContents.length-1) { // if its the last case it wont
+                result = result+newtree.encrypt(word); // add a space at end to
+              } else {  // increase efficency and make it easier
+                result = result+newtree.encrypt(word)+" ";
+              }
             }
-            String word = content.substring(0,space);
-            //System.out.println("word:"+word);
-            result = result+newtree.encrypt(word)+" ";
-            content = content.substring(space+1);
           }
-          System.out.println(result.trim());
+          System.out.println(result);
           result = "";
           break;
         case "d": // decrypt message
-          space = currentLine.indexOf("'");
-          content = currentLine.substring(space);
-          //System.out.println(content);
-          while (!content.isEmpty()) {
-            space = content.indexOf(' ');
-            if (space == -1){ // reached end of string
-              space = content.indexOf("'"); // must now use the end ' as index
+          content1 = currentLine.split("'");
+          splitContents = content1[1].split(" ");
+          for (int i=0;i < splitContents.length; i++) {
+            //System.out.println("word:"+splitContents[i]);
+            String code = splitContents[i];
+            if (!code.equals(" ")) {
+              if (i == splitContents.length-1) { // if its the last case it wont
+                result = result+newtree.decrypt(code); // add a space at end to
+              } else {  // increase efficency and make it easier
+                result = result+newtree.decrypt(code)+" ";
+              }
             }
-            String code = content.substring(0,space);
-            result = result+newtree.decrypt(code)+" ";
-            //System.out.println(result);
-            content = content.substring(space+1);
           }
-          System.out.println(result.trim());
+          System.out.println(result);
           result = "";
           break;
         case "p": // print the codebook
@@ -86,24 +81,5 @@ public class Driver_prj3 {
           break;
       }
     }
-    /**newtree.insert((file.nextLine()));
-    newtree.insert((file.nextLine()));
-    newtree.insert((file.nextLine()));
-    newtree.insert((file.nextLine()));
-    newtree.verifySearchOrder();
-    newtree.printPreorder();
-    System.out.println(newtree.encrypt("years"));
-    System.out.println(newtree.encrypt("seven"));
-    System.out.println(newtree.encrypt("four"));
-    System.out.println(newtree.encrypt("score"));
-    System.out.println(newtree.encrypt("ago"));
-    System.out.println(newtree.encrypt("and"));
-    System.out.println(newtree.encrypt("hannah"));
-    System.out.println(newtree.decrypt(newtree.encrypt("years")));
-    System.out.println(newtree.decrypt(newtree.encrypt("seven")));
-    System.out.println(newtree.decrypt(newtree.encrypt("four")));
-    System.out.println(newtree.decrypt(newtree.encrypt("score")));
-    System.out.println(newtree.decrypt(newtree.encrypt("ago")));
-    System.out.println(newtree.decrypt(newtree.encrypt("and")));*/
   }
 }
